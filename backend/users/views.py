@@ -51,3 +51,27 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
+            
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
+    def by_age(self, request):
+        min_age = request.query_params.get('min')
+        max_age = request.query_params.get('max')
+
+        if min_age is None or max_age is None:
+            return Response(
+                {"error": "Los parámetros 'min' y 'max' son obligatorios."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            min_age = int(min_age)
+            max_age = int(max_age)
+        except ValueError:
+            return Response(
+                {"error": "Los parámetros 'min' y 'max' deben ser números enteros."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        # greater than or equal // less than or equal
+        users = User.objects.filter(age__gte=min_age, age__lte=max_age)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

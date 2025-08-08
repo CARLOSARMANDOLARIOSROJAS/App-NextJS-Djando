@@ -33,6 +33,8 @@ class UserSerializer(serializers.ModelSerializer):
     
     def validate_email(self, value):
         user_id = self.instance.id if self.instance else None
+        if "@" not in value:
+            raise serializers.ValidationError("El correo electrónico debe contener '@'.")
         if User.objects.exclude(id=user_id).filter(email=value).exists():
             raise serializers.ValidationError("Este correo electrónico ya está en uso.")
         return value

@@ -5,7 +5,7 @@ import { ReduxProvider } from '@/redux/Provider';
 import { ClientLayout } from '@/components/ClientLayout';
 
 export const metadata: Metadata = {
-  title: 'Mi App',
+  title: 'Users Management App',
   description: 'App con Redux',
 };
 

@@ -61,7 +61,7 @@ export const Nav = (Props: NavProps) => {
           )}
           {idUser && (
             <li>
-              <Link href="/create" className="text-gray-200 hover:text-white">
+              <Link href="/users/create" className="text-gray-200 hover:text-white">
                 Create
               </Link>
             </li>

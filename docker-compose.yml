@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DEBUG=1
+    depends_on:
+      - db
+
+  frontend:
+    build: ./users-nextjs
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./users-nextjs:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  db:
+    image: nouchka/sqlite3  # SQLite no es un servicio real, pero pongo esto por compatibilidad
+    container_name: sqlite
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./backend/db.sqlite3:/root/db.sqlite3
